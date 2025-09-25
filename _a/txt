@@ -1,0 +1,24 @@
+php artisan migrate:refresh --path=/database/migrations/0001_01_01_000000_create_users_table.php
+
+users
+- id
+- name
+- password_hash
+
+pollings
+- id
+- title
+- type ENUM('free_for_all', 'limited_candidates')
+- status
+
+polling_candidates
+- id
+- polling_id
+- user_id
+
+polling_votes
+- id
+- polling_id
+- user_id
+- voted_for_id
+- UNIQUE(polling_id, user_id)
