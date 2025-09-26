@@ -31,6 +31,7 @@ create poll
 	view results
 
 USER
+	login
 	change password
 	view poll events with results
 	vote for event
