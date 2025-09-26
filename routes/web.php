@@ -33,6 +33,7 @@ Route::prefix('wm')->group(function (){
 
         Route::resource('pollings', PollingController::class);
         Route::post('pollings/bulk-delete', [PollingController::class, 'bulkDelete'])->name('pollings.bulk-delete');
+        Route::post('pollings/candidates_update/{id}', [PollingController::class, 'candidatesUpdate'])->name('pollings.candidates_update');
 
     });
 });

@@ -22,3 +22,15 @@ polling_votes
 - user_id
 - voted_for_id
 - UNIQUE(polling_id, user_id)
+
+
+ADMIN
+create user
+create poll
+	add candidates
+	view results
+
+USER
+	change password
+	view poll events with results
+	vote for event

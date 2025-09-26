@@ -19,6 +19,7 @@ class PollingVote extends Model
         return $this->belongsTo(Polling::class);
     }
 
+    // Voter
     public function user()
     {
         return $this->belongsTo(User::class);

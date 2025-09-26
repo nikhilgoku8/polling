@@ -74,16 +74,10 @@
                         <li><a href="{{ route('dashboard') }}" class="active"><i class="fa fa-line-chart" aria-hidden="true"></i> Dashboard</a></li>
 
                         <li>
-                            <a><i class="fa fa-users" aria-hidden="true"></i> Users<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="{{ route('users.index') }}">All</a></li>
-                            </ul>
+                            <a href="{{ route('users.index') }}"><i class="fa fa-users" aria-hidden="true"></i> Users</a>
                         </li>
                         <li>
-                            <a><i class="fa fa-users" aria-hidden="true"></i> Pollings<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="{{ route('pollings.index') }}">All</a></li>
-                            </ul>
+                            <a href="{{ route('pollings.index') }}"><i class="fa fa-bar-chart" aria-hidden="true"></i> Pollings</a>
                         </li>
                         
                     </ul>

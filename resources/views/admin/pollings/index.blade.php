@@ -5,16 +5,16 @@
         <div class="col-lg-12">
             <div class="page-header my_style">
                 <div class="left_section">
-                    <h1 class="">Categories</h1>
+                    <h1 class="">Pollings</h1>
                     <ul class="breadcrumb">
                         <li><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                        <li><a href="{{ route('pollings.index') }}">Pollings</a></li>
                     </ul>    
                 </div>
                 
                 <div class="right_section">
                     <div class="purple_hollow_btn">
-                        <a href="{{ route('categories.create'); }}">Add New</a>
+                        <a href="{{ route('pollings.create'); }}">Add New</a>
                     </div>
                     <!-- <div class="orange_hollow_btn">
                         <a id="filter_option">Filter</a>
@@ -41,7 +41,7 @@
 
                 <div class="upper_sec">
                     <div class="left_section">
-                        <div class="title">Categories Data</div>
+                        <div class="title">Pollings Data</div>
                         <div class="sub_title"> </div>
                     </div>
                     <div class="right_section">
@@ -54,21 +54,27 @@
                     <table>
                         <tbody>
                             <tr>
-                                <th>Category</th>
-                                <th>Sort Order</th>
-                                <th>Created By</th>
-                                <th>Updated By</th>
+                                <th>Poll Title</th>
+                                <th>Poll Type</th>
+                                <th>Winner Type</th>
+                                <th>Top Voted</th>
+                                <th>Created</th>
+                                <th>Updated</th>
                                 <th class="action">ACTION</th>
                             </tr>
                             @if(!empty($result))
                                 @foreach ($result as $row)
                                     <tr>
                                         <td>{{ $row->title }}</td>
-                                        <td>{{ $row->sort_order }}</td>
-                                        <td>{{ $row->created_by }} <br> {{ $row->created_at }}</td>
-                                        <td>{{ $row->updated_by }} <br> {{ $row->updated_at }}</td>
+                                        <td>{{ $row->poll_type }}</td>
+                                        <td>{{ $row->winner_type }}</td>
+                                        <td>
+                                            Get data based on poll type and winner type
+                                        </td>
+                                        <td>{{ $row->created_at }}</td>
+                                        <td>{{ $row->updated_at }}</td>
                                         <td class="action">
-                                            <a href="{{ route('categories.edit', $row->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            <a href="{{ route('pollings.edit', $row->id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                             <span class="checkbox">
                                                 <input name="dataID" class="styled" type="checkbox" value="{{ $row->id }}">
                                                 <label for="checkbox1"></label>
@@ -110,7 +116,7 @@ $(document).ready(function() {
         if (confirm('Are you sure you want to delete these records?')) {
             $.ajax({
                 type: "POST",
-                url: "{{ route('categories.bulk-delete') }}",
+                url: "{{ route('pollings.bulk-delete') }}",
                 data: {"_token":"{{ csrf_token() }}", "dataID":dataID},
                 dataType: 'json',
                 success: function(response) {

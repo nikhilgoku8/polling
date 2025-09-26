@@ -29,6 +29,6 @@ class User extends Model
 
     public function pollingsAsCandidate()
     {
-        return $this->hasMany(PollingCandidate::class);
+        return $this->belongsToMany(Polling::class, 'polling_candidates', 'user_id', 'polling_id');
     }
 }

@@ -6,10 +6,10 @@
         <div class="col-lg-12">
             <div class="page-header my_style">
                 <div class="left_section">
-                    <h1 class="">Categories</h1>
+                    <h1 class="">Pollings</h1>
                     <ul class="breadcrumb">
                         <li><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                        <li><a href="{{ route('pollings.index') }}">Pollings</a></li>
                     </ul>    
                 </div>
                 
@@ -26,13 +26,13 @@
 
     <div class="row">
 
-            <div class="my_panel form_box">
-                <form id="data_form" action="" method="POST" enctype="multipart/form-data">
+        <div class="my_panel form_box">
+            <form id="data_form" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="page-header my_style less_margin">
                     <div class="left_section">
                         <div class="title_text">
-                            <div class="title">Add New Category</div>
+                            <div class="title">Add New Poll Event</div>
                             <div class="sub_title">Please fillup the form </div>
                         </div>
                     </div>
@@ -53,11 +53,37 @@
                                 <input type="text" name="title" placeholder="Title">
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-4">
                             <div class="input_box">
-                                <label>Sort Order</label>
-                                <div class="error form_error" id="form-error-sort_order"></div>
-                                <input type="number" name="sort_order" placeholder="Sort Order">
+                                <label>Poll Type</label>
+                                <div class="error form_error" id="form-error-poll_type"></div>
+                                <select name="poll_type">
+                                    <option value="">Select</option>
+                                    <option value="free-for-all">Free for all</option>
+                                    <option value="selected-candidates">Selected Candidates</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input_box">
+                                <label>Winner Type</label>
+                                <div class="error form_error" id="form-error-winner_type"></div>
+                                <select name="winner_type">
+                                    <option value="">Select</option>
+                                    <option value="single">Single</option>
+                                    <option value="gender-based">Gender Based</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input_box">
+                                <label>Status</label>
+                                <div class="error form_error" id="form-error-status"></div>
+                                <select name="status">
+                                    <option value="">Select</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
                             </div>
                         </div>
                         <div class="clr"></div>
@@ -71,8 +97,8 @@
                         <div class="clr"></div>
                     </div>
                 </div>
-                </form>
-            </div>
+            </form>
+        </div>
 
     </div>
     <!-- /.row -->
@@ -88,14 +114,14 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "{{ route('categories.store') }}",
+            url: "{{ route('pollings.store') }}",
             data:  new FormData(this),
             dataType: 'json',
             cache: false,
             contentType: false,
             processData: false,
             success: function(result) {
-                location.href="{{ route('categories.index') }}";
+                location.href="{{ route('pollings.index') }}";
             },
             // error: function(data){
             //     var responseData = data.responseJSON;

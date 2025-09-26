@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Polling;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class PollingController extends Controller
 {
@@ -37,14 +39,17 @@ class PollingController extends Controller
 
     public function show(Polling $polling)
     {
-        $result = $polling;
-        return view('admin.pollings.show', compact('result'));
+        $data['result'] = $polling;
+        $data['users'] = User::all();
+        return view('admin.pollings.show', $data);
     }
 
     public function edit(Polling $polling)
     {
-        $result = $polling;
-        return view('admin.pollings.edit', compact('result'));
+        $data['result'] = $polling;
+        $data['users'] = User::all();
+
+        return view('admin.pollings.edit', $data);
     }
 
     public function store(Request $request)
@@ -99,6 +104,67 @@ class PollingController extends Controller
                 'status' => 'success',
                 'message' => $isNew ? 'Polling created successfully!' : 'Polling updated successfully!',
             ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'error_type' => 'form',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'error_type' => 'server',
+                'message' => 'Something went wrong. Please try again later.',
+                'console_message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function candidatesUpdate(Request $request)
+    {
+        try {
+
+            $rules = [
+                'polling_id' => 'required|exists:pollings,id',
+                'poll_candidates' => 'required|array|min:1',
+                'poll_candidates.*' => 'required|exists:users,id',
+            ];
+
+            $messages = [];
+
+            $attributes = [];
+
+            $validator = Validator::make($request->all(), $rules , $messages, $attributes);
+
+            // This validates and gives errors which are caught below and also stop further execution
+            $validated = $validator->validated();
+
+            $polling = Polling::find($validated['polling_id']);
+
+            //////////////////////////////////
+            if($polling->winner_type == 'gender-based'){
+                $newCandidateIds = $validated['poll_candidates'];
+
+                // Fetch genders of the new candidates
+                $genders = User::whereIn('id', $newCandidateIds)->pluck('gender')->unique();
+
+                // Check condition
+                if (! $genders->contains('male') || ! $genders->contains('female')) {
+                    throw ValidationException::withMessages([
+                        'poll_candidates' => 'You must include at least one male and one female candidate.',
+                    ]);
+                }
+            }
+            //////////////////////////////////
+
+            // Delete children that are not in the new set
+            $polling->candidates()->sync($validated['poll_candidates']);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Polling updated successfully!',
+            ]);
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'status' => 'error',

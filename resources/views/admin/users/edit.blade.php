@@ -58,7 +58,7 @@
                             <div class="input_box">
                                 <label>Middle Name</label>
                                 <div class="error form_error" id="form-error-mname"></div>
-                                <input type="text" name="mname" placeholder="Middle Name" value="{{ $result->fname }}">
+                                <input type="text" name="mname" placeholder="Middle Name" value="{{ $result->mname }}">
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -79,12 +79,11 @@
                             <div class="input_box">
                                 <label>Gender*</label>
                                 <div class="error form_error" id="form-error-gender"></div>
-                                <select>
+                                <select name="gender">
                                     <option value="">Select Gender</option>
-                                    <option value="male" @selected($result->email == 'male')>Male</option>
-                                    <option value="female" @selected($result->email == 'female')>Female</option>
+                                    <option value="male" @selected($result->gender == 'male')>Male</option>
+                                    <option value="female" @selected($result->gender == 'female')>Female</option>
                                 </select>
-                                <input type="text" name="email" placeholder="Email">
                             </div>
                         </div>
                         <div class="col-sm-6">

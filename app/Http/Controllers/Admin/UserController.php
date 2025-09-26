@@ -12,7 +12,9 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $result = User::orderByDesc('updated_at')
+        $result = User::orderBy('fname')
+            ->orderBy('mname')
+            ->orderBy('lname')
             ->when($request->fname, function($query) use ($request){
                 $query->where('fname','LIKE', "%{$request->fname}%");
             })
@@ -28,7 +30,6 @@ class UserController extends Controller
             ->when($request->gender, function($query) use ($request){
                 $query->where('gender', $request->gender);
             })
-            ->orderBy('fname')
             ->paginate(100);
             
         return view('admin.users.index', compact('result'));
